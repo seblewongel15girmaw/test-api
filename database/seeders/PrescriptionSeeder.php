@@ -13,28 +13,46 @@ class PrescriptionSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('prescriptions')->insert([
-            [
-                'patient_name' => 'John Doe',
-                'details' => 'Amoxicillin 500mg, Take one tablet three times a day',
-                'date' => '2024-10-01',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'patient_name' => 'Jane Smith',
-                'details' => 'Ibuprofen 400mg, Take one tablet every 6 hours as needed',
-                'date' => '2024-10-02',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'patient_name' => 'Alice Johnson',
-                'details' => 'Lisinopril 10mg, Take one tablet daily',
-                'date' => '2024-10-03',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+                // Ensure there are patients in the database
+                $patients = DB::table('patients')->pluck('id')->toArray();
+
+                // Insert sample data into the prescriptions table
+                DB::table('prescriptions')->insert([
+                    [
+                        'patient_id' => $patients[array_rand($patients)],
+                        'note' => 'Amoxicillin 500mg, Take one tablet three times a day',
+                        'prescription_status' => true,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'patient_id' => $patients[array_rand($patients)],
+                        'note' => 'Ibuprofen 400mg, Take one tablet every 6 hours as needed',
+                        'prescription_status' => false,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'patient_id' => $patients[array_rand($patients)],
+                        'note' => 'Lisinopril 10mg, Take one tablet daily',
+                        'prescription_status' => true,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'patient_id' => $patients[array_rand($patients)],
+                        'note' => 'Metformin 500mg, Take one tablet twice a day',
+                        'prescription_status' => false,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                    [
+                        'patient_id' => $patients[array_rand($patients)],
+                        'note' => 'Atorvastatin 20mg, Take one tablet at bedtime',
+                        'prescription_status' => true,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ],
+                ]);
     }
 }

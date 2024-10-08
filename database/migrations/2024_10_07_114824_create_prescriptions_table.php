@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('prescriptions', function (Blueprint $table) {
             $table->id();
-            $table->string('patient_name');
-            $table->string('details');
-            $table->date('date');
+            $table->unsignedBigInteger('patient_id');
+            $table->string('note');
+            $table->boolean('prescription_status')->default(false);
+            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
             $table->timestamps();
         });
     }
