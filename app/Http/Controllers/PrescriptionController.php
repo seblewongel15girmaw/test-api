@@ -19,20 +19,30 @@ class PrescriptionController extends Controller
 
     // update the status of prescription status 
     public function updateStatus($id)
-    {
-        // Find the prescription by ID
-        $prescription = Prescription::find($id);
+{
+    // Find the prescription by ID
+    $prescription = Prescription::find($id);
 
-        // Check if prescription exists
-        if (!$prescription) {
-            return response()->json(['message' => 'Prescription not found'], 404);
-        }
-
-        // Update the prescription status to true
-        $prescription->prescription_status = true;
-        $prescription->save();
-
-        // Return a success response
-        return response()->json(['message' => 'Prescription status updated successfully', 'prescription' => $prescription]);
+    // Check if prescription exists
+    if (!$prescription) {
+        return response()->json(['message' => 'Prescription not found'], 404);
     }
+
+    // Check if the prescription status is already true
+    if ($prescription->prescription_status) {
+        return response()->json(['message' => 'Prescription status is already updated.'], 400);
+    }
+
+    // Update the prescription status to true
+    $prescription->prescription_status = true;
+
+    // Attempt to save and catch any potential errors
+    try {
+        $prescription->save();
+        return response()->json(['message' => 'Prescription status updated successfully', 'prescription' => $prescription]);
+    } catch (\Exception $e) {
+        // Return a specific error message if save fails
+        return response()->json(['message' => 'Failed to update prescription status: ' . $e->getMessage()], 500);
+    }
+}
 }
