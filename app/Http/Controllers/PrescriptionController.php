@@ -18,12 +18,12 @@ class PrescriptionController extends Controller
 
 
     // update the status of prescription status 
-    public function updateStatus($id)
+   public function updateStatus($id)
 {
     // Find the prescription by ID
     $prescription = Prescription::find($id);
 
-    // Check if prescription exists
+    // Check if the prescription exists
     if (!$prescription) {
         return response()->json(['message' => 'Prescription not found'], 404);
     }
@@ -41,7 +41,6 @@ class PrescriptionController extends Controller
         $prescription->save();
         return response()->json(['message' => 'Prescription status updated successfully', 'prescription' => $prescription]);
     } catch (\Exception $e) {
-        // Return a specific error message if save fails
         return response()->json(['message' => 'Failed to update prescription status: ' . $e->getMessage()], 500);
     }
 }
