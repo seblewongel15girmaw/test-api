@@ -9,3 +9,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/prescriptions', [PrescriptionController::class, 'index']);
+
+Route::post('/prescriptions/{id}/status', [PrescriptionController::class, 'updateStatus']);
